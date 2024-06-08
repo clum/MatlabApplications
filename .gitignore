@@ -34,11 +34,12 @@ octave-workspace
 *.bin
 *.elf
 
-# Data
-*.csv
-
 #mat files
 *.mat
+
+#images
+*.jpg
+*.png
 
 #----------------------------
 #Microsoft Office
@@ -63,4 +64,7 @@ Backup of *.doc*
 # Visio autosave temporary files
 *.~vsd*
 
+#----------------------------
+#Files in specific folders
+#----------------------------
 #Specific files in 'Application' folder
