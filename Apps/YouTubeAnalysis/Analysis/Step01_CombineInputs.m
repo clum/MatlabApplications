@@ -6,6 +6,7 @@
 %Version History
 %09/14/23: Created
 %09/17/23: Minor update to file names
+%07/08/24: Update to support multiple classifications
 
 clear
 clc
@@ -15,9 +16,9 @@ tic
 
 %% User selections
 %Input file(s)
-% videoInfoFile   = [ReturnPathStringNLevelsUp(1),'\VideoInfo.xlsx'];
-videoInfoFile   = [ReturnPathStringNLevelsUp(1),'\VideoInfo_TEMP.xlsx'];
+videoInfoFile   = [ReturnPathStringNLevelsUp(1),'\VideoInfo.xlsx'];
 tableDataFile   = [ReturnPathStringNLevelsUp(1),'\Content 2010-09-01_2023-09-08 Christopher Lum\Table data.csv'];
+classificationInUse = 2;    %which classification column to use for groupings
 
 %Output file(s)
 augmentedTableDataFile  = 'Step01_TableDataAugmented.xlsx';
@@ -48,8 +49,9 @@ for k=1:M
         error(['Cannot find video ',VideoTitle,' in the file ',videoInfoFile])
     else
         %Get the classification
-        temp = videoInfoTable(idx,3);
-        classification = temp.Classification{1};
+        temp = videoInfoTable(idx,:);
+        s = ['classification = temp.Classification',num2str(classificationInUse),'{1};'];
+        eval(s);
     end
     
     Classification{k,1} = classification;
@@ -61,7 +63,7 @@ for k=1:M
         error(['Cannot find video ',VideoTitle,' in the file ',videoInfoFile])
     else
         %Get the videoDuration
-        temp = videoInfoTable(idx,4);
+        temp = videoInfoTable(idx,:);        
         videoDuration = temp.VideoDuration{1};
     end
     
