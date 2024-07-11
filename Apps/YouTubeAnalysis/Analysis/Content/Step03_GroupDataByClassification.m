@@ -49,7 +49,7 @@ for k=1:length(classifications)
     ClassVideoDuration_hr(k,1)  = sum(Tin.VideoDuration_sec(indices))/60/60;
 end
 
-%%
+%% Percentages
 ClassNumberVideos_percentage = ClassNumberVideos./sum(ClassNumberVideos)*100;
 ClassViews_percentage = ClassViews./sum(ClassViews)*100;
 ClassWatchTime_hr_percentage = ClassWatchTime_hr./sum(ClassWatchTime_hr)*100;
@@ -58,7 +58,7 @@ ClassRevenue_USD_percentage = ClassRevenue_USD./sum(ClassRevenue_USD)*100;
 ClassImpressions_percentage = ClassImpressions./sum(ClassImpressions)*100;
 ClassVideoDuration_hr_percentage = ClassVideoDuration_hr./sum(ClassVideoDuration_hr)*100;
 
-%Create table
+%% Create table
 Classification = classifications;   %change variable name to be consistent
 Tout = table(Classification,...
     ClassNumberVideos,...
