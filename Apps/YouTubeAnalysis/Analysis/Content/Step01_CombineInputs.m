@@ -8,6 +8,7 @@
 %09/17/23: Minor update to file names
 %07/08/24: Update to support multiple classifications
 %07/09/24: Moved folder
+%10/01/24: Updating folder structure of data
 
 clear
 clc
@@ -18,7 +19,7 @@ tic
 %% User selections
 %Input file(s)
 videoInfoFile   = [ReturnPathStringNLevelsUp(2),'\VideoInfo.xlsx'];
-tableDataFile   = [ReturnPathStringNLevelsUp(2),'\Data\Content 2010-09-01_2024-07-08 Christopher Lum\Table data.csv'];
+tableDataFile   = [ReturnPathStringNLevelsUp(2),'\Data\Content\Views\Content 2010-09-01_2024-07-08 Christopher Lum\Table data.csv'];
 classificationInUse = 2;    %which classification column to use for groupings.  1 = full categories, 2 = education/other
 
 %Output file(s)

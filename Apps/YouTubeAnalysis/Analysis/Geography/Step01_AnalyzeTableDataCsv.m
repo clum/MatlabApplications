@@ -6,6 +6,7 @@
 
 %Version History
 %07/09/24: Created
+%10/01/24: Updated for new data file structure
 
 clear
 clc
@@ -15,7 +16,7 @@ tic
 
 %% User selections
 %Input file(s)
-tableDataFile   = [ReturnPathStringNLevelsUp(2),'\Data\Geography 2010-09-01_2024-07-08 Christopher Lum\Table data.csv'];
+tableDataFile   = [ReturnPathStringNLevelsUp(2),'\Data\Geography\Geography 2010-09-01_2024-07-08 Christopher Lum\Table data.csv'];
 
 %Output file(s)
 augmentedTableDataFile  = 'Step01_TableDataAugmented.xlsx';
