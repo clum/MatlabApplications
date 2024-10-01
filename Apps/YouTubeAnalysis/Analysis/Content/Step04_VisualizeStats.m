@@ -5,6 +5,7 @@
 
 %Version History
 %09/17/23: Created
+%07/10/24: Added stats
 
 clear
 clc
@@ -24,12 +25,15 @@ Tin_data    = readtable(augmentedTableDataExtraColumnsFile);
 Tin_grouped = readtable(GroupByClassificationFile);
 
 %% General stats
+[M,~] = size(Tin_data);
+
+disp(['Number videos:                ',num2str(M)])
 disp(['Total views (millions):       ',num2str(sum(Tin_data.Views/1000000))])
 disp(['Total watch time (years):     ',num2str(sum(Tin_data.WatchTime_hours_)/24/365)])
 disp(['Total subscribers:            ',num2str(sum(Tin_data.Subscribers))])
 disp(['Total revenue (USD):          ',num2str(sum(Tin_data.EstimatedRevenue_USD_))])
 disp(['Total impressions (millions): ',num2str(sum(Tin_data.Impressions/1000000))])
-disp(['Total video duraion (days):   ',num2str(sum(Tin_data.VideoDuration_sec/60/60/24))])
+disp(['Total video duration (days):  ',num2str(sum(Tin_data.VideoDuration_sec/60/60/24))])
 
 %% Plots
 %Pie charts showing channel content
