@@ -18,7 +18,8 @@ ChangeWorkingDirectoryToThisLocation();
 %% User selections
 %Input file(s)
 % totalsDataFile   = [ReturnPathStringNLevelsUp(3),'\Data\Content\Revenue\Content 2010-09-01_2024-10-01 Christopher Lum\Totals.csv'];
-totalsDataFile   = [ReturnPathStringNLevelsUp(3),'\Data\Content\Revenue\Content 2010-09-01_2025-01-01 Christopher Lum\Totals.csv'];
+% totalsDataFile   = [ReturnPathStringNLevelsUp(3),'\Data\Content\Revenue\Content 2010-09-01_2025-01-01 Christopher Lum\Totals.csv'];
+totalsDataFile   = [ReturnPathStringNLevelsUp(3),'\Data\Content\Revenue\Content 2010-09-01_2025-04-10 Christopher Lum\Totals.csv'];
 
 %Output file(s)
 revenueDataFile = 'Step01a_RevenueByDate.xlsx';
