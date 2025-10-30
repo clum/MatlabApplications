@@ -55,4 +55,12 @@ for idx = 2:size(dataLines, 1)
     T = [T; tb]; %#ok<AGROW>
 end
 
+%CL: Remove the first row
+T = T(2:end,:);
+
+%CL: The first row may have added an extraneous category.  Remove unused
+%categories
+tableManip = tableManipulator(T);
+T = tableManip.RemoveUnusedCategories();
+
 end

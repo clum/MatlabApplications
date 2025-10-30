@@ -45,7 +45,7 @@ Tf = T2(indicesB,:);
 disp(['Num Entries: ',num2str(M)])
 
 %% Save data
-save(outputFile,'Tf');
+save(outputFile,'Tf','substring');
 disp(['Saved to ',outputFile])
 
 toc
