@@ -19,7 +19,7 @@ ChangeWorkingDirectoryToThisLocation();
 classListFile = 'C:\Users\chris\OneDrive\Documents\teaching\ae501_25\class_list_ae501_25.xlsx';
 
 Step02File = 'Step02_FilterComments.mat';   %get the substring
-outputFile = 'Step03_ProcessClassList.xlsx';
+outputFile = 'Step03_GenerateYouTubeIdSubstring.xlsx';
 
 %% Load data
 T = ImportClassListSpreadsheetNames(classListFile);
