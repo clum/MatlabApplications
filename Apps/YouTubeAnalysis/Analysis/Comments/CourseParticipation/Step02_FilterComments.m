@@ -5,6 +5,7 @@
 
 %Version History
 %10/27/25: Created
+%11/06/25: Added display about date ranges
 
 clear
 clc
@@ -39,14 +40,23 @@ T2 = T(indicesA,:);
 
 %filter to only comments which have the substring inside of T2
 indicesB = contains(T2.Comment,substring);
-Tf = T2(indicesB,:);
+TCommentsFiltered = T2(indicesB,:);
 
-[M,~] = size(Tf);
-disp(['Num Entries: ',num2str(M)])
+[M,~] = size(TCommentsFiltered);
+
+%% Display stats
+disp(['Filtered to the following date range'])
+disp(['Start Date:            ',char(startDateTime)])
+disp(['End Date:              ',char(endDateTime)])
+disp(['Duration (weeks):      ',num2str(days(endDateTime - startDateTime)/7)])
+disp(' ')
+disp(['Num Filtered Comments: ',num2str(M)])
+disp(' ')
 
 %% Save data
-save(outputFile,'Tf','substring');
+save(outputFile,'TCommentsFiltered','substring');
 disp(['Saved to ',outputFile])
+disp(' ')
 
 toc
 disp('DONE!')

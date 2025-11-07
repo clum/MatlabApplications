@@ -6,6 +6,7 @@
 
 %Version History
 %10/27/25: Created
+%11/06/25: Fixing logic of how last name is inferred
 
 clear
 clc
@@ -47,27 +48,49 @@ for k=1:M
     manualReviewRequired_k = false;
     comment_k = '';
     if(length(words)>=2)
-        firstName   = words{1};
-        lastName    = words{2};
+        if(strcmp(lower(words{end}),'jr') || ...
+                strcmp(lower(words{end}),'jr.') || ...
+                strcmp(lower(words{end}),'junior'))
+            %Example 'John Smith Jr'
+            firstName   = words{1};
+            lastName    = words{end-1};
+
+            manualReviewRequired_k = true;
+            comment_k = 'Last word in name appears to have some variation of Jr as a suffix.  ';
+            
+        elseif(contains(words{end},'/'))
+            %Example 'John Smith (He/him/his))'
+            firstName   = words{1};
+            lastName    = words{end-1};
+
+            manualReviewRequired_k = true;
+            comment_k = 'Last word in name appears to have a /.  ';            
+
+        else
+            %Example 'John Wiley Smith'
+            firstName   = words{1};
+            lastName    = words{end};
+
+        end
 
     elseif(length(words)==1)
         firstName   = words{1};
         lastName    = '';
 
         manualReviewRequired_k = true;
-        comment_k = 'Only 1 word in the name cell';
+        comment_k = 'Only 1 word in the name cell.  ';
 
     else
         firstName   = '';
         lastName    = '';
 
         manualReviewRequired_k = true;
-        comment_k = '0 words in the name cell';
+        comment_k = '0 words in the name cell.  ';
         
     end
 
     initials_k = [firstName(1),lastName(1)];
-    str_k = [substring,initials_k];
+    str_k = upper([substring,initials_k]);
 
     stringIds{k}            = str_k;
     manualReviewRequired(k) = manualReviewRequired_k;

@@ -6,6 +6,7 @@
 
 %Version History
 %10/29/25: Created
+%11/06/25: Continued working
 
 clear
 clc
@@ -22,10 +23,11 @@ Step02File = 'Step02_FilterComments.mat';   %get the substring
 outputFile = 'Step04_AnalyzeComments.xlsx';
 
 %% Load data
-T = ImportClassListSpreadsheetNames(classListFile);
+T = ImportClassListSpreadsheetNamesAndYouTubeCommentSubstring(classListFile);
 
 temp = load(Step02File);
 substring = temp.substring;
+TCommentsFiltered = temp.TCommentsFiltered;
 
 %% Process data
 %Remove empty entries
@@ -35,80 +37,44 @@ T2 = T(indices,:);
 [M,~] = size(T2);
 disp(['Num Students: ',num2str(M)])
 
-%Create a string for each student name
-stringIds               = cell(M,1);
-manualReviewRequired    = zeros(M,1);
-comment                 = cell(M,1);
+%For each student, search for their comments.  The output of the process is
+%a flat table with each row of TCommentsFiltered appended
+NameFlat = {};
+
+T_total = table();
 for k=1:M
-    name_k = char(T2.Name{k});
+    Name_k                      = T2.Name{k};
+    YouTubeCommentSubstring_k   = T2.YouTubeCommentSubstring{k};
 
-    words = SplitOnDesiredChar(name_k,' ' );
-
-    manualReviewRequired_k = false;
-    comment_k = '';
-    if(length(words)>=2)
-        firstName   = words{1};
-        lastName    = words{2};
-
-    elseif(length(words)==1)
-        firstName   = words{1};
-        lastName    = '';
-
-        manualReviewRequired_k = true;
-        comment_k = 'Only 1 word in the name cell';
-
-    else
-        firstName   = '';
-        lastName    = '';
-
-        manualReviewRequired_k = true;
-        comment_k = '0 words in the name cell';
-        
+    if(strcmp(YouTubeCommentSubstring_k,'AE501_KC'))
+        d = 1;
     end
 
-    initials_k = [firstName(1),lastName(1)];
-    str_k = [substring,initials_k];
+    %filter to only comments which have the substring inside of T2
+    indicesB = contains(TCommentsFiltered.Comment,YouTubeCommentSubstring_k);
+    TStudentComment = TCommentsFiltered(indicesB,:);
 
-    stringIds{k}            = str_k;
-    manualReviewRequired(k) = manualReviewRequired_k;
-    comment{k}              = comment_k;
-end
+    [N,~] = size(TStudentComment);
 
-%Assess if there are duplicates
-for k=1:M
-    str_k = stringIds{k};
-
-    numMatches = sum(strcmp(stringIds,str_k));
-
-    if(numMatches==0)
-        error(['Something went wrong with ',str_k]);
-
-    elseif(numMatches==1)
-        %Single match, a unique entry
-    else
-        %multiple matches
-        manualReviewRequired(k) = true;
-        comment{k}              = [comment{k},'Not a unique string ID'];
+    if(N>0)
+        d = 1;
     end
+
+    T_k = table('Size',[N,1],...
+        'VariableTypes', {'string'}, ...
+          'VariableNames', {'Name'});
+
+    T_k.Name(:) = Name_k;
+
+    T_StudentComment_k = [T_k TStudentComment];
+    
+    T_total = [T_total;
+        T_StudentComment_k];    
 end
-
-stringIdsUnique = unique(categorical(stringIds));
-disp(['Number of non-unique entries: ',num2str(length(stringIds)-length(stringIdsUnique))])
-
-%Create an output table
-TClassList = table(T2.Name,stringIds,manualReviewRequired,comment);
-TClassList.Properties.VariableNames = {
-    'Name',
-    'StringID',
-    'ManualReviewRequired',
-    'Comment'
-    };
-
-disp('Please review the StringID column, modify if necessary, and input into class list spreadsheet')
 
 %% Save data
 delete(outputFile)
-writetable(TClassList,outputFile);
+writetable(T_total,outputFile);
 disp(['Saved to ',outputFile])
 
 toc

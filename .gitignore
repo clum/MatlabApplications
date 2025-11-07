@@ -67,4 +67,13 @@ Backup of *.doc*
 #----------------------------
 #Files in specific folders
 #----------------------------
-#Specific files in 'Application' folder
+#Specific files in MatlabApplications' folder
+/Apps/StairsGeometryApp/*.prj
+/Apps/StairsGeometryApp/StairsGeometryApp/*.txt
+/Apps/StairsGeometryApp/StairsGeometryApp/*.log
+/Apps/StairsGeometryApp/StairsGeometryApp/*.html
+/Apps/StairsGeometryApp/StairsGeometryApp/*.ctf
+
+
+
+/Apps/YouTubeAnalysis/Analysis/Comments/CourseParticipation/*.xlsx
