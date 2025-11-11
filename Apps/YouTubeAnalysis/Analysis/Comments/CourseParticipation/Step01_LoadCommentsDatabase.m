@@ -18,7 +18,8 @@ tic
 ChangeWorkingDirectoryToThisLocation();
 
 %% User preferences
-commentSpreadsheetFile = [ReturnPathStringNLevelsUp(6),'\PythonApplications\Apps\YouTubeCommentDownloader\CommentsDownloadTest03.xlsx'];
+% commentSpreadsheetFile = [ReturnPathStringNLevelsUp(6),'\PythonApplications\Apps\YouTubeCommentDownloader\CommentsDownloadTest03.xlsx'];
+commentSpreadsheetFile = [ReturnPathStringNLevelsUp(6),'\PythonApplications\Apps\YouTubeCommentDownloader\CommentsDownloadTest04.xlsx'];
 
 outputFile = 'Step01_LoadCommentsDatabase.mat';
 

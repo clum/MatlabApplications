@@ -63,4 +63,8 @@ T = T(2:end,:);
 tableManip = tableManipulator(T);
 T = tableManip.RemoveUnusedCategories();
 
+%CL: Remove empty entries
+indices = find(cellfun(@strlength,T.Name)>0);
+T = T(indices,:);
+
 end

@@ -23,17 +23,13 @@ Step02File = 'Step02_FilterComments.mat';   %get the substring
 outputFile = 'Step03_GenerateYouTubeIdSubstring.xlsx';
 
 %% Load data
-T = ImportClassListSpreadsheetNames(classListFile);
+T = ImportClassListSpreadsheet(classListFile);
 
 temp = load(Step02File);
 substring = temp.substring;
 
 %% Process data
-%Remove empty entries
-indices = find(cellfun(@strlength,T.Name)>0);
-T2 = T(indices,:);
-
-[M,~] = size(T2);
+[M,~] = size(T);
 disp(['Num Students: ',num2str(M)])
 
 %Create a string for each student name
@@ -41,7 +37,7 @@ stringIds               = cell(M,1);
 manualReviewRequired    = zeros(M,1);
 comment                 = cell(M,1);
 for k=1:M
-    name_k = char(T2.Name{k});
+    name_k = char(T.Name{k});
 
     words = SplitOnDesiredChar(name_k,' ' );
 
@@ -119,7 +115,7 @@ stringIdsUnique = unique(categorical(stringIds));
 disp(['Number of non-unique entries: ',num2str(length(stringIds)-length(stringIdsUnique))])
 
 %Create an output table
-TClassList = table(T2.Name,stringIds,manualReviewRequired,comment);
+TClassList = table(T.Name,stringIds,manualReviewRequired,comment);
 TClassList.Properties.VariableNames = {
     'Name',
     'StringID',

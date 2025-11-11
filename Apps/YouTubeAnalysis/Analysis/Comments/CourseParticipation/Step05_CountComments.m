@@ -1,11 +1,10 @@
-%Flatten comments database and collect comments for each student.
+%Count comments for each student
 %
 %Christopher Lum
 %lum@uw.edu
 
 %Version History
-%10/29/25: Created
-%11/06/25: Continued working
+%11/06/25: Created
 
 clear
 clc
@@ -18,19 +17,22 @@ ChangeWorkingDirectoryToThisLocation();
 %% User preferences
 classListFile   = 'C:\Users\chris\OneDrive\Documents\teaching\ae501_25\class_list_ae501_25.xlsx';
 
-Step02File      = 'Step02_FilterComments.mat';   %get the substring
-outputFile_A    = 'Step04_FlattenComments.mat';
-outputFile_B    = 'Step04_FlattenComments.xlsx';
+Step04File = 'Step04_FlattenComments.xlsx';
+
+outputFile = 'Step05_CountComments.xlsx';
 
 %% Load data
-T = ImportClassListSpreadsheet(classListFile);
+T = ImportClassListSpreadsheet(classListFile)
 
-temp = load(Step02File);
-substring = temp.substring;
-TCommentsFiltered = temp.TCommentsFiltered;
+return
+% T = readtable(Step04File);
 
 %% Process data
-[M,~] = size(T);
+%Remove empty entries
+indices = find(cellfun(@strlength,T.Name)>0);
+T2 = T(indices,:);
+
+[M,~] = size(T2);
 disp(['Num Students: ',num2str(M)])
 
 %For each student, search for their comments.  The output of the process is
@@ -39,14 +41,22 @@ NameFlat = {};
 
 T_total = table();
 for k=1:M
-    Name_k                      = T.Name{k};
-    YouTubeCommentSubstring_k   = T.YouTubeCommentSubstring{k};
+    Name_k                      = T2.Name{k};
+    YouTubeCommentSubstring_k   = T2.YouTubeCommentSubstring{k};
+
+    if(strcmp(YouTubeCommentSubstring_k,'AE501_KC'))
+        d = 1;
+    end
 
     %filter to only comments which have the substring inside of T2
     indicesB = contains(TCommentsFiltered.Comment,YouTubeCommentSubstring_k);
     TStudentComment = TCommentsFiltered(indicesB,:);
 
     [N,~] = size(TStudentComment);
+
+    if(N>0)
+        d = 1;
+    end
 
     T_k = table('Size',[N,1],...
         'VariableTypes', {'string'}, ...
@@ -61,12 +71,9 @@ for k=1:M
 end
 
 %% Save data
-save(outputFile_A,'T_total')
-disp(['Saved to ',outputFile_A])
-
-delete(outputFile_B)
-writetable(T_total,outputFile_B);
-disp(['Saved to ',outputFile_B])
+delete(outputFile)
+writetable(T_total,outputFile);
+disp(['Saved to ',outputFile])
 
 toc
 disp('DONE!')
